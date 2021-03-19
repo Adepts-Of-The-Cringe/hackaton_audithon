@@ -1,0 +1,4 @@
+# while IFS= read -r line; do curl -O $line; done < files_vneshnego_dolga
+# while IFS= read -r line; do curl -O $line; done < file_vnutrennego_dolga
+# while IFS= read -r line; do curl -O $line; done < files_graphic_pogasheniya
+while IFS= read -r line; do curl -O $line; done < files_strictura_vnutrennego_gosdolga
