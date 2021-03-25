@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
 //    db.setPassword("1234");
 //    bool ok = db.open();
 //    w.say_ok(ok);
+    ok = false;
     w.resize(640, 360);
     w.show();
     return a.exec();
