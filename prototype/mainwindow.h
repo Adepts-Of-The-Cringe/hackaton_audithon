@@ -17,7 +17,7 @@ public:
     ~MainWindow();
 
 public:
-    void say_ok(bool status);
+    void say_ok(bool status, QString text);
 
 private slots:
     void on_rb_vnesh_volstr_toggled(bool checked);

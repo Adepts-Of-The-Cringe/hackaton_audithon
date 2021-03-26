@@ -46,10 +46,11 @@ void MainWindow::redraw_chart(QChartView *currentView)
     currentView->setChart(this->chart);
 }
 
-void MainWindow::say_ok(bool status)
+void MainWindow::say_ok(bool status, QString text)
 {
     if (status)
         ui->sql_label->setText("Ok");
     else
         ui->sql_label->setText("Not ok");
+    ui->sql_label_2->setText(text);
 }
