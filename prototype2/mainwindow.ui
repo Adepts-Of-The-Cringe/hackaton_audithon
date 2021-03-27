@@ -14,13 +14,13 @@
    <string>&quot;ВиГоД&quot;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
-      <widget class="QWidget" name="vnesh_tab">
+      <widget class="QWidget" name="ExternalTab">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -29,9 +29,9 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
-         <layout class="QHBoxLayout" name="rb_vnesh_hrztl_layout">
+         <layout class="QHBoxLayout" name="ExternalTopLayout">
           <item>
-           <widget class="QRadioButton" name="rb_vnesh_volstr">
+           <widget class="QRadioButton" name="ExternalRepaymentRB">
             <property name="text">
              <string>Объем и структура</string>
             </property>
@@ -41,18 +41,18 @@
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="rb_vnesh_pogas">
+           <widget class="QRadioButton" name="ExternalVolumeRB">
             <property name="text">
-             <string>Текущий график погашения</string>
+             <string>График погашения</string>
             </property>
            </widget>
           </item>
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="gbx_vnesh_hrztl_layout">
+         <layout class="QHBoxLayout" name="ExternalMainLayout">
           <item>
-           <widget class="QGroupBox" name="gbx_volstr">
+           <widget class="QGroupBox" name="ExternalVolumeGrBx">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -64,9 +64,9 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <item>
-              <layout class="QHBoxLayout" name="top_volstr_lbl_cmb_hrzntl_layout">
+              <layout class="QHBoxLayout" name="ExternalVolumeTopLayout">
                <item>
-                <widget class="QLabel" name="lbl_vnesh_volstr_from">
+                <widget class="QLabel" name="ExternalVolumeFromLabel">
                  <property name="text">
                   <string>Период с:</string>
                  </property>
@@ -76,7 +76,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="cmb_vnesh_volstr_month_from">
+                <widget class="QComboBox" name="ExternalVolumeFromMonthCmBx">
                  <property name="currentText">
                   <string/>
                  </property>
@@ -89,10 +89,10 @@
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="cmb_vnesh_volstr_year_from"/>
+                <widget class="QComboBox" name="ExternalVolumeFromYearCmBx"/>
                </item>
                <item>
-                <widget class="QLabel" name="lbl_vnesh_volstr_to">
+                <widget class="QLabel" name="ExternalVolumeToLabel">
                  <property name="text">
                   <string>по:</string>
                  </property>
@@ -102,7 +102,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="cmb_vnesh_volstr_month_to">
+                <widget class="QComboBox" name="ExternalVolumeToMonthCmBx">
                  <property name="currentText">
                   <string/>
                  </property>
@@ -115,107 +115,30 @@
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="cmb_vnesh_volstr_year_to"/>
+                <widget class="QComboBox" name="ExternalVolumeToYearCmBx"/>
                </item>
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <layout class="QHBoxLayout" name="ExternalVolumeMainLayout">
                <item>
-                <widget class="QGroupBox" name="vnesh_volume_2">
+                <widget class="QGroupBox" name="ExternalVolumeChartGrBx">
                  <property name="title">
                   <string>Объем</string>
                  </property>
-                 <layout class="QGridLayout" name="gridLayout_2"/>
+                 <layout class="QGridLayout" name="gridLayout_2">
+                  <item row="0" column="0">
+                   <widget class="QChartView" name="ExternalVolumeCharView"/>
+                  </item>
+                 </layout>
                 </widget>
                </item>
                <item>
-                <widget class="QGroupBox" name="vnesh_struct_2">
+                <widget class="QGroupBox" name="ExternalVolumeInfoGrBx">
                  <property name="title">
                   <string>Структура</string>
                  </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_7">
-                  <item>
-                   <widget class="QCheckBox" name="vnesh_struct_cb_6">
-                    <property name="enabled">
-                     <bool>true</bool>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="whatsThis">
-                     <string/>
-                    </property>
-                    <property name="text">
-                     <string>1</string>
-                    </property>
-                    <property name="checked">
-                     <bool>true</bool>
-                    </property>
-                    <property name="autoRepeat">
-                     <bool>false</bool>
-                    </property>
-                    <property name="autoExclusive">
-                     <bool>false</bool>
-                    </property>
-                    <property name="tristate">
-                     <bool>false</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="vnesh_struct_cb_7">
-                    <property name="text">
-                     <string>2</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="vnesh_struct_cb_8">
-                    <property name="text">
-                     <string>3</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="vnesh_struct_cb_9">
-                    <property name="text">
-                     <string>4</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="vnesh_struct_cb_10">
-                    <property name="text">
-                     <string>5</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="vnesh_struct_cb_11">
-                    <property name="text">
-                     <string>6</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="checkBox">
-                    <property name="text">
-                     <string>7</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="checkBox_2">
-                    <property name="text">
-                     <string>8</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
+                 <layout class="QVBoxLayout" name="verticalLayout_7"/>
                 </widget>
                </item>
               </layout>
@@ -224,15 +147,68 @@
            </widget>
           </item>
           <item>
-           <widget class="QGroupBox" name="gbx_pogas">
+           <widget class="QGroupBox" name="ExternalRepaymentGrBx">
             <property name="title">
              <string/>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_2">
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <widget class="QChartView" name="ExternalRepaymentChartView"/>
+             </item>
+             <item>
+              <widget class="QCalendarWidget" name="ExternalRepaymentCalendar"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="InternalTab">
+       <attribute name="title">
+        <string>Внутренний долг</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <layout class="QHBoxLayout" name="InternalTopLayout">
+          <item>
+           <widget class="QRadioButton" name="InternalRepaymentRB">
+            <property name="text">
+             <string>Объем и структура</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="InternalVolumeRB">
+            <property name="text">
+             <string>График погашения</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="InternalMainLayout">
+          <item>
+           <widget class="QGroupBox" name="InternalVolumeGrBx">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="title">
+             <string/>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_13">
+             <item>
+              <layout class="QHBoxLayout" name="InternalVolumeTopLayout">
                <item>
-                <widget class="QLabel" name="label">
+                <widget class="QLabel" name="InternalVolumeFromLabel">
                  <property name="text">
                   <string>Период с:</string>
                  </property>
@@ -242,7 +218,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="cmb_vnesh_pogas_month_from">
+                <widget class="QComboBox" name="InternalVolumeFromMonthCmBx">
                  <property name="currentText">
                   <string/>
                  </property>
@@ -255,10 +231,10 @@
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="cmb_vnesh_pogas_year_from"/>
+                <widget class="QComboBox" name="InternalVolumeFromYearCmBx"/>
                </item>
                <item>
-                <widget class="QLabel" name="label_2">
+                <widget class="QLabel" name="InternalVolumeToLabel">
                  <property name="text">
                   <string>по:</string>
                  </property>
@@ -268,7 +244,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="cmb_vnesh_pogas_month_to">
+                <widget class="QComboBox" name="InternalVolumeToMonthCmBx">
                  <property name="currentText">
                   <string/>
                  </property>
@@ -281,22 +257,30 @@
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="cmb_vnesh_pogas_year_to"/>
+                <widget class="QComboBox" name="InternalVolumeToYearCmBx"/>
                </item>
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <layout class="QHBoxLayout" name="InternalVolumeMainLayout">
                <item>
-                <widget class="QGroupBox" name="vnesh_volume">
+                <widget class="QGroupBox" name="InternalVolumeChartGrBx">
                  <property name="title">
-                  <string>График погашения</string>
+                  <string>Объем</string>
                  </property>
-                 <layout class="QGridLayout" name="gridLayout_3">
+                 <layout class="QGridLayout" name="gridLayout_5">
                   <item row="0" column="0">
-                   <widget class="QChartView" name="chartview_vnesh_volume_2"/>
+                   <widget class="QChartView" name="InternalVolumeCharView"/>
                   </item>
                  </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="InternalVolumeInfoGrBx">
+                 <property name="title">
+                  <string>Структура</string>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_14"/>
                 </widget>
                </item>
               </layout>
@@ -304,31 +288,22 @@
             </layout>
            </widget>
           </item>
+          <item>
+           <widget class="QGroupBox" name="InternalRepaymentGrBx">
+            <property name="title">
+             <string/>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="QChartView" name="InternalRepaymentChartView"/>
+             </item>
+             <item>
+              <widget class="QCalendarWidget" name="InternalRepaymentCalendar"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
          </layout>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="vnutr_tab">
-       <attribute name="title">
-        <string>Внутренний долг</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QLabel" name="sql_label">
-          <property name="text">
-           <string>TextLabel</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCalendarWidget" name="calendarWidget"/>
-        </item>
-        <item>
-         <widget class="QLabel" name="sql_label_2">
-          <property name="text">
-           <string>TextLabel</string>
-          </property>
-         </widget>
         </item>
        </layout>
       </widget>
