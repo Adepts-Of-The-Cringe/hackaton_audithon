@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="vnesh_tab">
        <property name="enabled">
@@ -126,11 +126,7 @@
                  <property name="title">
                   <string>Объем</string>
                  </property>
-                 <layout class="QGridLayout" name="gridLayout_2">
-                  <item row="0" column="0">
-                   <widget class="QChartView" name="chartview_vnesh_volume"/>
-                  </item>
-                 </layout>
+                 <layout class="QGridLayout" name="gridLayout_2"/>
                 </widget>
                </item>
                <item>
@@ -323,6 +319,9 @@
            <string>TextLabel</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <widget class="QCalendarWidget" name="calendarWidget"/>
         </item>
         <item>
          <widget class="QLabel" name="sql_label_2">

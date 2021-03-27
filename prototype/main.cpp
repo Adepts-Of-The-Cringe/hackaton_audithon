@@ -4,16 +4,9 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-	QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-	db.setHostName("localhost");
-	db.setDatabaseName("debt");
-	db.setUserName("test");
-	db.setPassword("1234");
-	bool ok = db.open();
-    w.say_ok(ok, "SHIT");
-    w.resize(640, 360);
-    w.show();
-    return a.exec();
+    QApplication app(argc, argv);
+    MainWindow main_window;
+    main_window.resize(640, 360);
+    main_window.show();
+    return app.exec();
 }
