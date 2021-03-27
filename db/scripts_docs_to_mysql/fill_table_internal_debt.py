@@ -35,47 +35,47 @@ def file_format(argument):
        return argument[x:len(argument)]
 
 def get_date(argument):
-    pattern = r'(?:0?[1-9]|[12][0-9]|3[01])[.-](?:0?[1-9]|1[0-2])[.-](?:19[0-9][0-9]|20[012][0-9])'
+    pattern = r'(?:0?[1-9]|[12][0-9]|3[01])[.-](?:0?[1-9]|1[0-2])[.-](?:19[0-9][0-9]|20[012][0-9]|[0-9][0-9])'
     dates = re.findall(pattern, argument)
 
-    print(dates)
-    if(len(dates) == 1):
+    if(len(dates) < 3):
+        print(dates[0])
         for i in range(0, len(dates[0])):
             if (dates[0][i] == '.' or dates[0][i] == '-'):
                 c = dates[0][i]
                 x = (i + 1)
-                if ((x + 7) > (len(dates[0]))):
+                if ((x + 5) > (len(dates[0]))):
                     return ('ERROR: Too short date')
                 else:
                     month = dates[0][x:x + 2]
-                    year = dates[0][x + 3:x + 7]
-                    break
+                    year = dates[0][x + 3:x + 5]
+                break
     else:
-        return ('ERROR: More then 1 dates (wtf?)')
+        return ('ERROR: More then 2 dates (wtf?)')
 
-    return (year + c + month + c + '00')
+    return (year + c + month + c + '01')
 
 def get_tipe(cell):
-    if ('ОВГВЗ' in cell):
-        return ('OVGVZ')
-    if (('Париж' in cell) and ('реструктур' in cell)):
-        return ('PARIS')
-    if (('Париж' in cell) and ('не член' in cell)):
-        return ('NPARIS')
-    if (('облиг' in cell) and ('займам' in cell)):
-        return ('OBZ00')
-    if (('Государств' in cell) and ('внешний' in cell)):
+    if ('ОФЗ-ПД' in cell):
+        return ('OFZ-PD')
+    if ('ОФЗ-АД' in cell):
+        return ('OFZ-AD')
+    if ('ОФЗ-ПК' in cell):
+        return ('OFZ-PK')
+    if ('ОФЗ-ИН' in cell):
+        return ('OFZ-IN')
+    if ('ОФЗ-н' in cell):
+        return('OFZ-n')
+    if ('ГСО-ППС' in cell):
+        return ('GSO-PPS')
+    if ('ГСО-ФПС' in cell):
+        return ('GSO-FPS')
+    if ('ОВОЗ' in cell):
+        return ('OVOZ')
+    if ('БОФЗ' in cell):
+        return ('BOFZ')
+    if ('Итого' in cell):
         return ('ITOGO')
-    if (('валют' in cell) and ('гарант' in cell)):
-        return ('GOSGAR')
-    if (('бывш' in cell) and ('СЭВ' in cell)):
-        return ('OFSEV')
-    if (('Коммерч' in cell) and ('СССР' in cell)):
-        return ('USSR')
-    if (('международн' in cell) and ('организац' in cell)):
-        return ('INTNAT')
-    if (('Прочая' in cell) and ('задолж' in cell)):
-        return ('OTHER')
     return ('UNKNOWN')
 
 def xls_parse(database, argument):
@@ -84,25 +84,22 @@ def xls_parse(database, argument):
 
     month = get_date(argument)
     if ('ERROR' in month):
-        return ('ERROR: Wrong file name ' + argument)
+        return ('ERROR: Wrong date ' + argument)
 
-    usd = '0'
-    eur = '0'
+    billion_roubles = '0'
     tipe = 'UNKNOWN'
     reserved = 0
     for r in range(0, sheet.nrows):
-        for c in range(0, sheet.ncols):
-            x = sheet.cell(r, c).value
-            if (type(x) == float):
-                y = sheet.cell(r, c + 1).value
-                usd = x
-                eur = y if (type(y) == float) else eur
-                tipe = get_tipe(sheet.cell(r, 0).value)
-                reserved = 0
-                values = (month, usd, eur, tipe)
-                print(values)
-                cursor.execute(query, values)
-                break
+        x1 = sheet.cell(r, 1).value
+        x2 = sheet.cell(r, 2).value
+        if (type(x1) == float and type(x2) == str):
+            billion_roubles = x1
+            tipe = get_tipe(x2)
+            reserved = 0
+            values = (month, billion_roubles, tipe)
+            print(values)
+            cursor.execute(query, values)
+            break
     return ('SUCCESS: File ' + argument + ' added to DB ')
 
 def xlsx_parse(database, argument):
@@ -111,40 +108,37 @@ def xlsx_parse(database, argument):
 
    month = get_date(argument)
    if ('ERROR' in month):
-       return ('ERROR: Wrong file name ' + argument)
+       print(month)
+       return ('ERROR: Wrong date ' + argument)
 
-   usd = '0'
-   eur = '0'
+   billion_roubles = '0'
    tipe = 'UNKNOWN'
    reserved = 0
-   for r in range(1, sheet.max_row):
-       for c in range(1, sheet.max_column):
-           x = sheet.cell(r, c).value
-           if (type(x) == float):
-               y = sheet.cell(r, c + 1).value
-               usd = x
-               eur = y if (type(y) == float) else eur
-               tipe = get_tipe(sheet.cell(r, 1).value)
-               reserved = 0
-               values = (month, usd, eur, tipe)
-               print(values)
-               cursor.execute(query, values)
-               break
+   for r in range(1, sheet.max_row + 1):
+       x2 = sheet.cell(r, 1).value
+       x1 = sheet.cell(r, 2).value
+       if (type(x1) == float and type(x2) == str):
+           billion_roubles = x1
+           tipe = get_tipe(x2)
+           reserved = 0
+           values = (month, billion_roubles, tipe)
+           print(values)
+           cursor.execute(query, values)
    return ('SUCCESS: File ' + argument + ' added to DB ')
 
 
 
 # MAIN
-database = MySQLdb.connect (host='localhost', user = 'root', passwd = 'formaldegid', db = 'debt')
+database = MySQLdb.connect (host='localhost', user = 'tasian', passwd = '', db = 'debt')
 cursor = database.cursor()
 
 try:
-    query = """CREATE TABLE """ + sys.argv[1] + """ (month DATE, usd FLOAT, eur FLOAT, type CHAR(7), reserved CHAR(25), id BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id))"""
+    query = """CREATE TABLE """ + sys.argv[1] + """ (month DATE, billion_roubles FLOAT, type CHAR(7), reserved CHAR(25), id BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id))"""
     cursor.execute(query)
 except MySQLdb._exceptions.OperationalError:
     print ("The table ", sys.argv[1], " already exists. File will be added to it")
 
-query = """INSERT INTO """ + sys.argv[1] + """ (month, usd, eur, type, reserved) VALUES (%s, %s, %s, %s, 0)"""
+query = """INSERT INTO """ + sys.argv[1] + """ (month, billion_roubles, type, reserved) VALUES (%s, %s, %s, 0)"""
 for i in range(2, len(sys.argv)):
     ff = file_format(sys.argv[i])
     print (sys.argv[i])

@@ -4,4 +4,4 @@ while IFS= read -r line; do curl -O $line; done < График_погашени�
 while IFS= read -r line; do curl -O $line; done < Структура_государственного_внешнего_долга_Российской_Федерации
 while IFS= read -r line; do curl -O $line; done < Структура_и_динамика_государственного_внутреннего_долга
 while IFS= read -r line; do curl -O $line; done < Таблицы_ежемесячных_значений_объема_государственного_внутреннего_долга_Российской_Федерации
-# while IFS= read -r line; do curl -O $line; echo $line > file_to; done < file_in
+#while IFS= read -r line; do curl -O $line; echo $line > file_to; done < file_in
