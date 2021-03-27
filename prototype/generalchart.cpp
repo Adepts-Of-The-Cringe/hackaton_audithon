@@ -1,6 +1,6 @@
-#include "mychart.h"
+#include "generalchart.h"
 
-MyChart::MyChart() : QChart()
+GeneralChart::GeneralChart(QWidget *parent) : QChart(), Viewer(this, parent)
 {
     QBarSet *set6 = new QBarSet("Перед оф.кр-ами - членами Парижского клуба");
     QBarSet *set1 = new QBarSet("Перед оф.кр-ами - членами Парижского клуба");
@@ -42,4 +42,14 @@ MyChart::MyChart() : QChart()
     this->legend()->setVisible(true);
     this->legend()->setAlignment(Qt::AlignRight);
     this->setTheme(QChart::ChartThemeHighContrast);
+}
+
+QChartView *GeneralChart::GetViewer()
+{
+    return &Viewer;
+}
+
+GeneralChart::~GeneralChart()
+{
+
 }
