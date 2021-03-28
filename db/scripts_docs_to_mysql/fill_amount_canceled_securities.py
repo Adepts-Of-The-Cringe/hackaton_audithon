@@ -71,7 +71,7 @@ database = MySQLdb.connect (host='localhost', user = 'tasian', passwd = '', db =
 cursor = database.cursor()
 
 try:
-    query = """CREATE TABLE """ + sys.argv[1] + """ (code CHAR(9), type CHAR(15), release_date CHAR(10), canceled_date CHAR(10), emission FLOAT, canceled_in_fact FLOAT, reserved CHAR(25), id BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id))"""
+    query = """CREATE TABLE """ + sys.argv[1] + """ (code CHAR(9), type CHAR(15), release_date DATE, canceled_date DATE, emission FLOAT, canceled_in_fact FLOAT, reserved CHAR(25), id BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id))"""
     cursor.execute(query) 
 except MySQLdb._exceptions.OperationalError:
     print ("The table ", sys.argv[1], " already exists. File will be added to it")

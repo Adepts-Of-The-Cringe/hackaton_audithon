@@ -132,7 +132,7 @@ database = MySQLdb.connect (host='localhost', user = 'tasian', passwd = '', db =
 cursor = database.cursor()
 
 try:
-    query = """CREATE TABLE """ + sys.argv[1] + """ (vipusk CHAR(10), number INT, date CHAR(10), period INT, percent_cupon FLOAT, percent_amortization FLOAT, nominal_roubles FLOAT, razmer_cupona FLOAT, pogashenie_nominala FLOAT, vsego_viplat_po_abligacii FLOAT, reserved CHAR(25), id BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id))"""
+    query = """CREATE TABLE """ + sys.argv[1] + """ (vipusk CHAR(10), number INT, date DATE, period INT, percent_cupon FLOAT, percent_amortization FLOAT, nominal_roubles FLOAT, razmer_cupona FLOAT, pogashenie_nominala FLOAT, vsego_viplat_po_abligacii FLOAT, reserved CHAR(25), id BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id))"""
     cursor.execute(query) 
 except MySQLdb._exceptions.OperationalError:
     print ("The table ", sys.argv[1], " already exists. File will be added to it")
