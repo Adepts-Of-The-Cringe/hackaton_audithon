@@ -2,7 +2,22 @@
 #include "ui_mainwindow.h"
 
 QStringList months = {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
-QStringList years = {"2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021"};
+//QStringList years = {"2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021"};
+
+static void set_years(QStringList *years, QString table)
+{
+	QSqlQuery	query = QSqlQuery("SELECT DISTINCT(year(month)) FROM " + table);
+
+	if (!query.exec())
+	{
+		qDebug() << "Error: Wrong data base query [data.cpp : set_dates]";
+		exit(EXIT_FAILURE);
+	}
+	while (query.next())
+		*years << query.value(0).toString();
+
+	years->sort();
+}
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -13,16 +28,23 @@ MainWindow::MainWindow(QWidget *parent)
     , InternalRepaymentChart(new GeneralChart(crt_data::Repayment, crt_data::Internal))
 {
     ui->setupUi(this);
+
+	QStringList	ex_years;
+	QStringList in_years;
+
+	set_years(&ex_years, "external_debt");
+	set_years(&in_years, "internal_debt");
+
     ui->ExternalRepaymentGrBx->hide();
     ui->InternalRepaymentGrBx->hide();
     ui->ExternalVolumeFromMonthCmBx->addItems(months);
     ui->ExternalVolumeToMonthCmBx->addItems(months);
-    ui->ExternalVolumeFromYearCmBx->addItems(years);
-    ui->ExternalVolumeToYearCmBx->addItems(years);
+	ui->ExternalVolumeFromYearCmBx->addItems(ex_years);
+	ui->ExternalVolumeToYearCmBx->addItems(ex_years);
     ui->InternalVolumeFromMonthCmBx->addItems(months);
     ui->InternalVolumeToMonthCmBx->addItems(months);
-    ui->InternalVolumeFromYearCmBx->addItems(years);
-    ui->InternalVolumeToYearCmBx->addItems(years);
+	ui->InternalVolumeFromYearCmBx->addItems(in_years);
+	ui->InternalVolumeToYearCmBx->addItems(in_years);
     ExternalVolumeChart->SetFromMonth(ui->ExternalVolumeFromMonthCmBx->currentIndex());
     ExternalVolumeChart->SetFromYear(ui->ExternalVolumeFromYearCmBx->currentText());
     ExternalVolumeChart->SetToMonth(ui->ExternalVolumeToMonthCmBx->currentIndex());
@@ -35,6 +57,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ExternalRepaymentChartView->setChart(ExternalRepaymentChart);
     ui->InternalVolumeChartView->setChart(InternalVolumeChart);
     ui->InternalRepaymentChartView->setChart(InternalRepaymentChart);
+
+
+	ui->tabWidget->setCurrentIndex(0);
+	ui->ExternalVolumeFromMonthCmBx->setCurrentIndex(2);
+	ui->ExternalVolumeToYearCmBx->setCurrentIndex(2);
+	ui->InternalVolumeToYearCmBx->setCurrentIndex(2);
+
     ExternalVolumeChart->Redraw();
 }
 

@@ -9,12 +9,12 @@ crt_data::crt_data(VRType TChart, EIType TDebt)
 {
     db.setHostName("localhost");
     db.setDatabaseName("debt");
-    db.setUserName("test");
-    db.setPassword("1234");
+	db.setUserName("root");
+	db.setPassword("FORMALDEGID");
     db.open();
     if (DebtType == crt_data::External)
     {
-        debt_table = "external_debt";
+		debt_table = "external_debt";
         ValueContent = "usd";
     }
     else
@@ -62,19 +62,22 @@ bool crt_data::NextSet()
     if (ok)
     {
         int tmp = CountSet;
-        query.prepare("select distinct(type) from " + debt_table + " where month between :datefrom and :dateto;");
+		query.prepare("select distinct(type) from " + debt_table + " where month between :datefrom and :dateto;");
         query.bindValue(":datefrom", DateFrom);
         query.bindValue(":dateto", DateTo);
         query.exec();
         while (tmp--)
-            query.next();
-        TypeSet = query.value(0).toString();
+			query.next();
+		TypeSet = query.value(0).toString();
     }
     CountSet--;
     query.finish();
-    query.prepare("select "+ ValueContent + ", month from " + debt_table + " where month between :datefrom and :dateto and type=:typeset order by month;");
+	qDebug() << query.prepare("select "+ ValueContent + ", month from " + debt_table + " where month between :datefrom and :dateto and type=:typeset order by month;");
     query.bindValue(":datefrom", DateFrom);
     query.bindValue(":dateto", DateTo);
+	qDebug() << "TS: " << TypeSet;
+	qDebug() << "DF: " << DateFrom;
+	qDebug() << "DT: " << DateTo;
     query.bindValue(":typeset", TypeSet);
     query.exec();
     return (ok);
@@ -82,12 +85,12 @@ bool crt_data::NextSet()
 
 void crt_data::Recalculate()
 {
-    query.prepare("select count(distinct(type)) from " + debt_table + " where month between :datefrom and :dateto;");
-    query.bindValue(":datefrom", DateFrom);
-    query.bindValue(":dateto", DateTo);
+	query.prepare("select count(distinct(type)) from " + debt_table + " where month between :datefrom and :dateto;");
+	query.bindValue(":datefrom", DateFrom);
+	query.bindValue(":dateto", DateTo);
     query.exec();
-    query.next();
-    CountSet = query.value(0).toInt();
+	query.next();
+	CountSet = query.value(0).toInt();
     query.finish();
 }
 

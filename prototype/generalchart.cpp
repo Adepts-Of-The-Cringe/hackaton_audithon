@@ -47,6 +47,7 @@ void GeneralChart::Redraw()
     {
         chart_data->Recalculate();
         QStringList categories;
+
         while (chart_data->NextSet())
         {
             QBarSet *NewSet = new QBarSet(chart_data->TakeTypeSet());
@@ -60,6 +61,7 @@ void GeneralChart::Redraw()
             }
             StackBars.push_back(NewSet);
         }
+		qDebug() << "CAT: " << categories;
         series->clear();
         while (!StackBars.isEmpty())
         {
@@ -68,7 +70,7 @@ void GeneralChart::Redraw()
         }
         axisX->clear();
         axisX->append(categories);
-        axisY->setMax(chart_data->DebtType == crt_data::External ? 70000.0 : 30000.0);
+		axisY->setMax(chart_data->DebtType == crt_data::External ? 70000.0 : 15000.0);
         this->setAnimationOptions(QChart::SeriesAnimations);
         this->legend()->setVisible(true);
         this->legend()->setAlignment(Qt::AlignRight);
