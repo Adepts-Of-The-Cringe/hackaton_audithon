@@ -31,7 +31,7 @@
         <item>
          <layout class="QHBoxLayout" name="ExternalTopLayout">
           <item>
-           <widget class="QRadioButton" name="ExternalRepaymentRB">
+           <widget class="QRadioButton" name="ExternalVolumeRB">
             <property name="text">
              <string>Объем и структура</string>
             </property>
@@ -41,7 +41,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="ExternalVolumeRB">
+           <widget class="QRadioButton" name="ExternalRepaymentRB">
             <property name="text">
              <string>График погашения</string>
             </property>
@@ -128,7 +128,7 @@
                  </property>
                  <layout class="QGridLayout" name="gridLayout_2">
                   <item row="0" column="0">
-                   <widget class="QChartView" name="ExternalVolumeCharView"/>
+                   <widget class="QChartView" name="ExternalVolumeChartView"/>
                   </item>
                  </layout>
                 </widget>
@@ -173,7 +173,7 @@
         <item>
          <layout class="QHBoxLayout" name="InternalTopLayout">
           <item>
-           <widget class="QRadioButton" name="InternalRepaymentRB">
+           <widget class="QRadioButton" name="InternalVolumeRB">
             <property name="text">
              <string>Объем и структура</string>
             </property>
@@ -183,7 +183,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="InternalVolumeRB">
+           <widget class="QRadioButton" name="InternalRepaymentRB">
             <property name="text">
              <string>График погашения</string>
             </property>
@@ -270,7 +270,7 @@
                  </property>
                  <layout class="QGridLayout" name="gridLayout_5">
                   <item row="0" column="0">
-                   <widget class="QChartView" name="InternalVolumeCharView"/>
+                   <widget class="QChartView" name="InternalVolumeChartView"/>
                   </item>
                  </layout>
                 </widget>

@@ -4,6 +4,17 @@ GeneralChart::GeneralChart(crt_data::VRType TChart, crt_data::EIType TDebt)
     : QChart()
     , chart_data(new crt_data(TChart, TDebt))
 {
+    if (chart_data->ChartType == crt_data::Volume)
+    {
+        axisX = new QBarCategoryAxis();
+        this->addAxis(axisX, Qt::AlignBottom);
+        axisY = new QValueAxis();
+        this->addAxis(axisY, Qt::AlignLeft);
+        series = new QStackedBarSeries();
+        this->addSeries(series);
+        series->attachAxis(axisX);
+        series->attachAxis(axisY);
+    }
 }
 
 GeneralChart::~GeneralChart()
@@ -13,31 +24,28 @@ GeneralChart::~GeneralChart()
 void GeneralChart::SetFromMonth(int month)
 {
     chart_data->SetFromMonth(month);
-    Redraw();
 }
 
 void GeneralChart::SetToMonth(int month)
 {
     chart_data->SetToMonth(month);
-    Redraw();
 }
 
-void GeneralChart::SetFromYear(int year)
+void GeneralChart::SetFromYear(QString year)
 {
-    chart_data->SetFromYear(year);
-    Redraw();
+    chart_data->SetFromYear(year.toInt());
 }
 
-void GeneralChart::SetToYear(int year)
+void GeneralChart::SetToYear(QString year)
 {
-    chart_data->SetToYear(year);
-    Redraw();
+    chart_data->SetToYear(year.toInt());
 }
 
 void GeneralChart::Redraw()
 {
-    if (chart_data->DebtType == crt_data::External)
+    if (chart_data->ChartType == crt_data::Volume)
     {
+        chart_data->Recalculate();
         QStringList categories;
         while (chart_data->NextSet())
         {
@@ -52,40 +60,34 @@ void GeneralChart::Redraw()
             }
             StackBars.push_back(NewSet);
         }
-        QStackedBarSeries *series = new QStackedBarSeries();
+        series->clear();
         while (!StackBars.isEmpty())
         {
             series->append(StackBars.front());
             StackBars.pop_front();
         }
-        this->addSeries(series);
-        this->setAnimationOptions(QChart::SeriesAnimations);
-        QBarCategoryAxis *axisX = new QBarCategoryAxis();
+        axisX->clear();
         axisX->append(categories);
-        this->addAxis(axisX, Qt::AlignBottom);
-        series->attachAxis(axisX);
-        QValueAxis *axisY = new QValueAxis();
-        this->addAxis(axisY, Qt::AlignLeft);
-        axisY->setMax(70000.0);
-        series->attachAxis(axisY);
+        axisY->setMax(chart_data->DebtType == crt_data::External ? 70000.0 : 30000.0);
+        this->setAnimationOptions(QChart::SeriesAnimations);
         this->legend()->setVisible(true);
         this->legend()->setAlignment(Qt::AlignRight);
         this->setTheme(QChart::ChartThemeBlueCerulean);
     }
     else
     {
-           QPieSeries *series = new QPieSeries();
-           series->append("Тип № 5", 10);
-           series->append("Тип № 4", 23);
-           series->append("Тип № 3", 19);
-           series->append("Тип № 2", 6);
-           series->append("Тип № 1", 40);
-           QPieSlice *slice = series->slices().at(1);
+           QPieSeries *series2 = new QPieSeries();
+           series2->append("Тип № 5", 10);
+           series2->append("Тип № 4", 23);
+           series2->append("Тип № 3", 19);
+           series2->append("Тип № 2", 6);
+           series2->append("Тип № 1", 40);
+           QPieSlice *slice = series2->slices().at(1);
            slice->setExploded();
            slice->setLabelVisible();
            slice->setPen(QPen(Qt::darkGreen, 2));
            slice->setBrush(Qt::green);
-           this->addSeries(series);
+           this->addSeries(series2);
            this->setTitle("График погашения на DD месяца YYYY");
            this->legend()->hide();
     }

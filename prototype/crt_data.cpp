@@ -1,4 +1,5 @@
 #include "crt_data.h"
+#include <QDebug>
 
 QSqlDatabase crt_data::db = QSqlDatabase::addDatabase("QMYSQL");
 
@@ -11,39 +12,48 @@ crt_data::crt_data(VRType TChart, EIType TDebt)
     db.setUserName("test");
     db.setPassword("1234");
     db.open();
+    if (DebtType == crt_data::External)
+    {
+        debt_table = "external_debt";
+        ValueContent = "usd";
+    }
+    else
+    {
+        debt_table = "internal_debt";
+        ValueContent = "billion_roubles";
+    }
 }
 
 void crt_data::SetFromMonth(int month)
 {
-    MonthFrom = month;
+    MonthFrom = month + 1;
     DateFrom = FormDate(YearFrom, MonthFrom);
-    Recalculate();
 }
 
 void crt_data::SetToMonth(int month)
 {
-    MonthTo = month;
+    MonthTo = month + 1;
     DateTo = FormDate(YearTo, MonthTo);
-    Recalculate();
 }
 
 void crt_data::SetFromYear(int year)
 {
     YearFrom = year;
     DateFrom = FormDate(YearFrom, MonthFrom);
-    Recalculate();
 }
 
 void crt_data::SetToYear(int year)
 {
     YearTo = year;
     DateTo = FormDate(YearTo, MonthTo);
-    Recalculate();
 }
 
 QString crt_data::FormDate(int year, int month)
 {
-    return(QVariant(year).toString() + "-" + QVariant(month).toString() + "-00");
+    QString smonth = QVariant(month).toString();
+    if (month < 10)
+        smonth = "0" + smonth;
+    return(QVariant(year).toString() + "-" + smonth + "-01");
 }
 
 bool crt_data::NextSet()
@@ -51,18 +61,18 @@ bool crt_data::NextSet()
     bool ok = (CountSet != 0);
     if (ok)
     {
-        query.prepare("select distinct(type) from external where month between (datefrom) and (dateto) "
-                    "VALUES (:datefrom, :dateto)");
+        int tmp = CountSet;
+        query.prepare("select distinct(type) from " + debt_table + " where month between :datefrom and :dateto;");
         query.bindValue(":datefrom", DateFrom);
         query.bindValue(":dateto", DateTo);
         query.exec();
-        query.next();
-        TypeSet = query.value(CountSet - 1).toString();
+        while (tmp--)
+            query.next();
+        TypeSet = query.value(0).toString();
     }
     CountSet--;
     query.finish();
-    query.prepare("select usd, month from external where month between date(datefrom) and date(dateto) and type=(typeset) order by month"
-                "VALUES (:datefrom, :dateto, :typeset)");
+    query.prepare("select "+ ValueContent + ", month from " + debt_table + " where month between :datefrom and :dateto and type=:typeset order by month;");
     query.bindValue(":datefrom", DateFrom);
     query.bindValue(":dateto", DateTo);
     query.bindValue(":typeset", TypeSet);
@@ -72,8 +82,7 @@ bool crt_data::NextSet()
 
 void crt_data::Recalculate()
 {
-    query.prepare("select count(distinct(type)) from external where month between date(datefrom) and date(dateto) "
-                    "VALUES (:datefrom, :dateto)");
+    query.prepare("select count(distinct(type)) from " + debt_table + " where month between :datefrom and :dateto;");
     query.bindValue(":datefrom", DateFrom);
     query.bindValue(":dateto", DateTo);
     query.exec();
@@ -99,7 +108,7 @@ bool crt_data::SetHaveValue()
 
 double crt_data::TakeCurrentValue()
 {
-    return(query.value(query.record().indexOf("usd")).toDouble());
+    return(query.value(query.record().indexOf(ValueContent)).toDouble());
 }
 
 QString crt_data::TakeCategories()

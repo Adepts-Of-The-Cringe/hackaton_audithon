@@ -43,6 +43,8 @@ private:
     QString DateFrom;
     QString DateTo;
     QString TypeSet;
+    QString debt_table;
+    QString ValueContent;
     int MonthFrom;
     int MonthTo;
     int YearFrom;

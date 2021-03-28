@@ -30,6 +30,18 @@ private slots:
 
     void on_ExternalVolumeToYearCmBx_currentIndexChanged(const QString &arg1);
 
+    void on_InternalVolumeFromMonthCmBx_currentIndexChanged(int index);
+
+    void on_InternalVolumeFromYearCmBx_currentIndexChanged(const QString &arg1);
+
+    void on_InternalVolumeToMonthCmBx_currentIndexChanged(int index);
+
+    void on_InternalVolumeToYearCmBx_currentIndexChanged(const QString &arg1);
+
+    void on_InternalRepaymentRB_toggled(bool checked);
+
+    void on_InternalVolumeRB_toggled(bool checked);
+
 private:
     Ui::MainWindow *ui;
     GeneralChart *ExternalVolumeChart;

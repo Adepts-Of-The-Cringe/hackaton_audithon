@@ -16,12 +16,15 @@ public:
 public:
     void SetFromMonth(int month);
     void SetToMonth(int month);
-    void SetFromYear(int year);
-    void SetToYear(int year);
+    void SetFromYear(QString year);
+    void SetToYear(QString year);
     void Redraw();
 
 private:
     crt_data *chart_data;
+    QBarCategoryAxis *axisX;
+    QValueAxis *axisY;
+    QStackedBarSeries *series;
     QVector<QBarSet*> StackBars;
 };
 
